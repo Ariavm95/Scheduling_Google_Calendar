@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+		
+
+		<style>
+			 .slider {
+
+			 }
+			/* The Modal (background) */
+			.modall {
+			    display: none; /* Hidden by default */
+			    position: fixed; /* Stay in place */
+			    z-index: 1; /* Sit on top */
+			    padding-top: 100px; /* Location of the box */
+			    left: 0;
+			    top: 0;
+			    width: 100%; /* Full width */
+			    height: 100%; /* Full height */
+			  	overflow-y: auto; 
+			    background-color: rgb(0,0,0); /* Fallback color */
+			    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+			}
+
+			/* Modal Content */
+			.modal-content {
+			    background-color: #fefefe;
+			    margin: auto;
+			    overflow: auto;
+			    overflow-y: auto;
+			    padding: 20px;
+			    border: 1px solid #888;
+			    width: 80%;
+			    -webkit-animation-name: animatetop;
+			    -webkit-animation-duration: 0.4s;
+			    animation-name: animatetop;
+			    animation-duration: 0.4s
+			}
+
+			/* The Close Button */
+			.close {
+			    color: #aaaaaa;
+			    float: right;
+			    position: relative;
+    			top: 0px;
+    			
+			    font-size: 28px;
+			    font-weight: bold;
+			}
+
+			.close:hover,
+			.close:focus {
+			    color: #000;
+			    text-decoration: none;
+			    cursor: pointer;
+
+			
+			}
+		</style>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	</head>
+	<body >
+	
+		<!-- Trigger/Open The Modal -->
+		<button id="myBtn" class="btn btn-default">Schedule</button>
+		<button id="myBtn2" class="btn btn-default" onclick="window.location='https://calendar.google.com'">My calendar</button>
+		
+		<!-- The Modal -->
+		<div id="myModal" class="modall">
+
+		  <!-- Modal content -->
+		  <div class="modal-content" >
+		  	<span class="close">&times;</span>	
+		  <div  id="dynamic" style="overflow: auto">
+		    
+		    <p>Scheduling an interview</p>
+		    
+		    <form id="form" name="form" style="overflow: auto">
+		    			<div class="form-group">
+			    		<br><label> User's email</label><br>
+						<input type="email" id="uemail" class="form-control" name="uemail" placeholder="Email" required="required">
+						</div>
+						<label id="mylabel" name="mylabel" class="slider" style="float: right">week(s)</label>
+						<input type="range" id="slider" name="slider" class="slider" min=1 max=10 onchange="getvalue(this.value);" style="width: 300px; left: 50% ; margin: =auto; "><br>
+						
+						<input type="submit" name="submit" class="btn btn-primary" >
+						<input type="button" name="Add"  class="btn btn-primary" value="Add" onclick="addInput('form');">
+					
+			</form>
+			</div>
+
+		  </div>
+
+		</div>
+		<script>
+				document.getElementById("mylabel").innerHTML=document.getElementById("slider").value+" week(s)";
+				var getvalue=function(val){
+					document.getElementById("mylabel").innerHTML=val+" week(s)";
+				}
+				
+				// Get the modal
+				var modal = document.getElementById('myModal');
+
+				// Get the button that opens the modal
+				var btn = document.getElementById("myBtn");
+
+				// Get the <span> element that closes the modal
+				var span = document.getElementsByClassName("close")[0];
+				//var slider = document.getElementById("slider");
+
+				// When the user clicks the button, open the modal 
+				btn.onclick = function() {
+				    modal.style.display = "block";
+				}
+
+				// When the user clicks on <span> (x), close the modal
+				span.onclick = function() {
+				    modal.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+				    if (event.target == modal) {
+				        modal.style.display = "none";
+				    }
+				}
+		</script>
+		<script type="text/javascript">
+				var counter = 1;
+				var counter2=1;
+				var limit = 10;
+				function addInput(divName){
+				     if (counter == limit)  {
+				          alert("You have reached the limit of adding " + counter + " inputs");
+				     }
+				     else {
+				     	var element0=document.createElement("div");
+            			var element1 = document.createElement("input");
+            			var element2 = document.createElement("label");
+            			var element3 = document.createElement("br");
+            			
+            			element0.setAttribute('class','form-group');
+            			var newContent = document.createTextNode("Email"+counter);
+            			element2.appendChild(newContent);
+
+            			
+						element1.type="email";
+						element1.name="email"+counter;
+						element1.id="email"+counter;
+						
+						element1.setAttribute('class','form-control');
+						element1.placeholder="Email";
+						element1.required="required";
+						element0.appendChild(element2);
+						element0.appendChild(element3);
+						element0.appendChild(element1);
+						var fo=document.getElementById("form");
+						fo.insertBefore(element0,fo.childNodes[1+counter]);
+				
+
+				          counter++;
+				          counter2=counter2+2;
+				     }
+				}
+		</script>
+		<script type="text/javascript">
+		
+			$( "#form" ).submit(function( event ) {
+  				
+  				event.preventDefault();
+				
+			 	getbusytime();
+			 	
+			 	return false;
+		});
+		var getbusytime=function(){
+			var api_key='AIzaSyAmSFjk0Zq0UGTPdlLnWnpt9MJhuIS2Nk4';
+			localStorage.clear();
+		
+			console.log(document.getElementById("uemail").value);
+		
+			var uemail=document.getElementById("uemail").value;
+			var weeks=document.getElementById("slider").value;
+			
+			var date = new Date(); 
+			console.log("moment is:"+moment().format());
+	
+			var str=moment().format();
+			var end= moment().add(weeks,"w").format();
+			console.log("start is"+str+" end is"+end);
+
+	
+			
+				var emailsarray=[];
+				emailsarray.push(document.getElementById("uemail").value);
+				for(var i=0;i<(counter-1);i++){
+					emailsarray.push(document.getElementById("email"+(i+1)).value);
+				}
+				var emailAPI=function(){
+					var email=emailsarray.pop();
+					if(email == "undefined"){
+						return;
+					}
+					var requestbody2={
+					 "timeMin": str,
+					  "timeMax": end,
+					  "timeZone": "America/Los_Angeles",
+					 
+					  "items": [
+					    {
+					      "id": email
+					    }
+					  ]
+					};
+				  $.ajax({
+				  url: 'https://www.googleapis.com/calendar/v3/freeBusy?key=' +api_key,
+				  type: 'POST',
+				  data:  JSON.stringify(requestbody2),
+				  contentType: 'application/json; charset=utf-8',
+				  dataType: 'json',
+				  success: function(data){
+				  		
+				  		localStorage.setItem(email, JSON.stringify(data['calendars'][email]));
+				  		console.log("yooo");
+				  		if(emailsarray.length == 0){
+				  			window.location="untitled.html?weeks="+weeks;
+				  			return;
+				  		}
+				  		emailAPI();
+
+				  }
+					});
+				}
+	
+				emailAPI();
+			
+		
+			return false;
+		}
+		function setCookie(cname, cvalue, exdays) {
+		    var date = new Date();
+		    date.setTime(d.getTime() + (exdays*24*60*60*1000));
+		    var expires = "expires="+ date.toUTCString();
+		    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+		
+	</script>
+
+	</body>
+</html>
